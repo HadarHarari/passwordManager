@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+<head>
+    <title>Our Password Manager's Popup page</title>
+    <script src="popup.js"></script>
+</head>
+<body>
+<h3 style="white-space: nowrap">Password Manager</h3>
+<div id="username-val" hidden>
+    <p>User name: (min. 6 chars)</p> <input id="username" type="text">
+</div>
+<div id="password-val" hidden>
+    <p>Password: (exact 8 chars)</p> <input id="user's password" type="password">
+</div>
+<p id="login-request" hidden>
+    <button id="sign-in" class="sign-in">Sign in</button>    <button id="register-option" class="sign-up">Register</button>
+</p>
+<p id="status">Please sign in or register</p>
+<div id="after-login" hidden>
+    <div style="display: inline-block;">
+    <button id="sign-out" class="sign_out">Sign out</button><br><br>
+    <button id="unregister-account" class="unregister_account">Unregister</button>
+    </div><br><br>
+    <button id="show-details" class="show_details">Show Account's details</button>
+<p id="account's-details-table"></p>
+<table id="show-details-table" style="display: none; width: 100%;" cellpadding="1" cellspacing="0">
+    <style>
+        table, th, td {
+          border: 1px solid black;
+        }
+        </style>
+    <tr>
+      <td id="webTD">Web</td>
+      <td id="usernameTD">Username</td>
+      <td id="operationTD">Options</td>
+    </tr>
+    <tr>
+        <td id="webTD1"></td>
+        <td id="usernameTD1"></td>
+        <td id="operationTD1">
+        <button id="delete-record-1" class="delete-record-1">DELETE</button>
+        </td>
+      </tr>
+      <tr>
+        <td id="webTD2"></td>
+        <td id="usernameTD2"></td>
+        <td id="operationTD2">
+            <button id="delete-record-1" class="delete-record-2">DELETE</button></td>
+      </tr>
+      <tr>
+        <td id="webTD3"></td>
+        <td id="usernameTD3"></td>
+        <td id="operationTD3">
+            <button id="delete-record-1" class="delete-record-3">DELETE</button></td>
+      </tr>
+
+</table>
+<p id="delete-from-details"></p>
+<h3>Look for some web details / do you want to delete record?</h3>
+<button id="specific-details">Search</button>
+<p id="specific-details-box"></p>
+<button id="delete-specific-details" style="display: none;">Delete Record</button>
+<button id="specific-details-password" style="display: none;">Show Password</button>
+<p id="specific-details-password-box"></p>
+
+</div>
+</body>
+</html>

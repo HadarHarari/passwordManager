@@ -1,0 +1,29 @@
+{
+  "manifest_version": 2,
+
+  "name": "Our Password Manager",
+  "description": "Chrome Plugin which save user's passwords",
+  "version": "1.0",
+
+  "background": {
+    "page": "background.html",
+    "persistent": true
+  },
+
+  "browser_action": {
+    "default_icon": "lock.png",
+    "default_popup": "popup.html",
+    "default_title": "Password Manager"
+  },
+
+  "permissions": [
+    "storage",
+    "activeTab",
+    "tabs",
+    "<all_urls>",
+    "background",
+    "http://localhost:3000/*",
+    "webRequest",
+    "webRequestBlocking"
+  ]
+}

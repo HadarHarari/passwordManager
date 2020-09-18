@@ -10,6 +10,7 @@ mongoose.Promise = global.Promise;
 const keys = require('./config/keys');
 mongoose.connect(keys.mongodbLogIn,{useNewUrlParser: true, useUnifiedTopology: true })
 .catch(err => console.log("Not success connect to server"));;
+//the data that save in the DB with encrypted fields
 var nameSchema = new mongoose.Schema({
     A: String,
     B: String,
@@ -28,24 +29,26 @@ var Msocket="";
 
 function login(socket, data){
     console.log(data.user + " login request");
+    //find if the user exist in the DB
     User.findOne({A: data.user},'B C ',function (err, docs) {
         if (docs){
             console.log("user " + data.user + " exists in data base");
             var key = data.password + docs.B; // password + salt
             var hashed = CryptoJS.HmacSHA256(key, data.user).toString(CryptoJS.enc.Base64); 
-            if (hashed === docs.C){
+            
+            if (hashed === docs.C){ //check if the password correct
                 console.log("password correct");
                 var userContentName = CryptoJS.HmacSHA256(key, data.password).toString(); // hash it
                 Msocket=socket;
                 Content.findOne({X: userContentName},'Y',function (err, contentDocs){
-                if(contentDocs){
+                if(contentDocs){ // send respone to the client witrh the data
                     socket.emit('login_ACK', { response: 'signed in', content: contentDocs.Y})
                 } else console.log(" didn't find records of content of this user");
                  } ) 
                 return;     
         }      
         else{
-            console.log("password incorrect");
+            console.log("password incorrect");  //if password incorrect send respone to the client
             socket.emit('login_ACK', { response: 'password incorrect' });
             return;
         }           
@@ -79,14 +82,14 @@ function register(socket, data){
             var salt = CryptoJS.lib.WordArray.random(18); 
             var key = data.password + salt; 
             var hashed = CryptoJS.HmacSHA256(key, data.user).toString(CryptoJS.enc.Base64); 
-            var userContentName = CryptoJS.HmacSHA256(key, data.password).toString();
+            var userContentName = CryptoJS.HmacSHA256(key, data.password).toString(); //encrypt the content
             var NewuserContentName= new Content({X:userContentName});
             NewuserContentName.save(function(err){
                 if(err){
                     console.log("problem in creating new user content");
                 }else console.log("succed new user content");
             })
-            var myData = new User({A:data.user,B:salt,C:hashed});
+            var myData = new User({A:data.user,B:salt,C:hashed});//create new user
             myData.save(function (err){
                 if (!err) {
                 console.log(data.user + " registered successfully");
@@ -99,7 +102,7 @@ function register(socket, data){
 
 function update_data(data){
     var salt="";
-        User.findOne({A: data.user},'B ',function (err, docs) {
+        User.findOne({A: data.user},'B ',function (err, docs) {//find the data of the user
             if(docs){
                  salt=docs.B;
                  var key = data.password + salt;
